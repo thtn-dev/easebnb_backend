@@ -1,0 +1,6 @@
+@Easebnb.WebApi_HostAddress = http://localhost:5162
+
+GET {{Easebnb.WebApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
