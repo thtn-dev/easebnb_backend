@@ -10,4 +10,8 @@
       <ProjectReference Include="..\Easebnb.Shared\Easebnb.Shared.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="8.0.6" />
+    </ItemGroup>
+
 </Project>
