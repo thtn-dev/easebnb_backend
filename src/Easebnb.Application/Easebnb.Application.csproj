@@ -7,12 +7,16 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Easebnb.Domain\Easebnb.Domain.csproj" />
+      <Compile Remove="Modules\**" />
+      <Compile Remove="Ping\**" />
+      <EmbeddedResource Remove="Modules\**" />
+      <EmbeddedResource Remove="Ping\**" />
+      <None Remove="Modules\**" />
+      <None Remove="Ping\**" />
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Modules\" />
-      <Folder Include="Ping\" />
+      <ProjectReference Include="..\Easebnb.Domain\Easebnb.Domain.csproj" />
     </ItemGroup>
     <ItemGroup>
       <PackageReference Include="AutoMapper" Version="13.0.1" />

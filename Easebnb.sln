@@ -1,18 +1,35 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Easebnb.Shared", "src\Easebnb.Shared\Easebnb.Shared.csproj", "{59838217-CACF-4517-BEB0-199066D88F17}"
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Easebnb.Shared", "src\Easebnb.Shared\Easebnb.Shared.csproj", "{59838217-CACF-4517-BEB0-199066D88F17}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Easebnb.Domain", "src\Easebnb.Domain\Easebnb.Domain.csproj", "{CE4D873F-D6EF-4C19-A839-263A529C8A30}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Easebnb.Domain", "src\Easebnb.Domain\Easebnb.Domain.csproj", "{CE4D873F-D6EF-4C19-A839-263A529C8A30}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Easebnb.Application", "src\Easebnb.Application\Easebnb.Application.csproj", "{512F8A5D-F546-4DBC-8EF5-0801A8D4D458}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Easebnb.Application", "src\Easebnb.Application\Easebnb.Application.csproj", "{512F8A5D-F546-4DBC-8EF5-0801A8D4D458}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Easebnb.Infrastructure", "src\Easebnb.Infrastructure\Easebnb.Infrastructure.csproj", "{13C73EE7-D051-4A15-B6A0-55FE96382202}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Easebnb.Infrastructure", "src\Easebnb.Infrastructure\Easebnb.Infrastructure.csproj", "{13C73EE7-D051-4A15-B6A0-55FE96382202}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Easebnb.WebApi", "src\Easebnb.WebApi\Easebnb.WebApi.csproj", "{6D8DCC46-3908-44DB-B2E6-BC68A6CD0840}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Easebnb.WebApi", "src\Easebnb.WebApi\Easebnb.WebApi.csproj", "{6D8DCC46-3908-44DB-B2E6-BC68A6CD0840}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_SolutionItems", "_SolutionItems", "{4B39C63E-1714-448D-BAC6-9DD649AB9CFE}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		README.md = README.md
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{4305ACD0-A847-40F0-9839-C23E70252407}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{A257D112-2992-49B5-AC38-5B357E25BE83}"
+	ProjectSection(SolutionItems) = preProject
+		docker\docker-compose.yml = docker\docker-compose.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{C5D978FE-D177-4C43-92C5-7222F1F8BC7A}"
+	ProjectSection(SolutionItems) = preProject
+		docs\migrations\README.md = docs\migrations\README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,8 +58,16 @@ Global
 		{6D8DCC46-3908-44DB-B2E6-BC68A6CD0840}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6D8DCC46-3908-44DB-B2E6-BC68A6CD0840}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{59838217-CACF-4517-BEB0-199066D88F17} = {4305ACD0-A847-40F0-9839-C23E70252407}
 		{CE4D873F-D6EF-4C19-A839-263A529C8A30} = {4305ACD0-A847-40F0-9839-C23E70252407}
+		{A257D112-2992-49B5-AC38-5B357E25BE83} = {4B39C63E-1714-448D-BAC6-9DD649AB9CFE}
+		{C5D978FE-D177-4C43-92C5-7222F1F8BC7A} = {4B39C63E-1714-448D-BAC6-9DD649AB9CFE}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7F89CD78-DAB4-44D5-ABD8-216382A5DEC0}
 	EndGlobalSection
 EndGlobal
