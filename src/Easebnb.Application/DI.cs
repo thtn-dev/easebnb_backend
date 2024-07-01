@@ -1,6 +1,4 @@
 ﻿using Easebnb.Application.Common.Behaviours;
-using FluentValidation;
-using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 

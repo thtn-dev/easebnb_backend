@@ -9,7 +9,7 @@ public static partial class IdentityBuilder
 {
     public static void ApplyIdentityModelBuilder(this ModelBuilder builder)
     {
-        builder.Entity<User>(ConfigureUser);
+        builder.Entity<UserEntity>(ConfigureUser);
         builder.Entity<IdentityRole>(ConfigureRole);
         builder.Entity<IdentityUserRole<string>>(ConfigureUserRole);
         builder.Entity<IdentityUserClaim<string>>(ConfigureUserClaim);
@@ -94,7 +94,7 @@ public static partial class IdentityBuilder
             .HasColumnType(DbTypeConstants.VARCHAR64);
     }
 
-    private static void ConfigureUser(EntityTypeBuilder<User> entity)
+    private static void ConfigureUser(EntityTypeBuilder<UserEntity> entity)
     {
         entity.ToTable("Users")
             .HasKey(x => x.Id);
@@ -138,12 +138,12 @@ public static partial class IdentityBuilder
             .HasColumnType(DbTypeConstants.VARCHAR256)
             .HasMaxLength(256);
 
-        
+
         entity
             .Property(x => x.PhoneNumber)
             .IsUnicode()
             .HasColumnType(DbTypeConstants.VARCHAR32)
             .HasMaxLength(32);
 
-    }   
+    }
 }

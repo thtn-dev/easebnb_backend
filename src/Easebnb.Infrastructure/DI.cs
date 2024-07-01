@@ -59,7 +59,7 @@ public static class DependencyInjection
     /// <param name="configuration"></param>
     private static void AddAspNetIdentity(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddIdentity<User, IdentityRole>()
+        services.AddIdentity<UserEntity, IdentityRole>()
             .AddEntityFrameworkStores<AppDbContext>()
             .AddDefaultTokenProviders();
 

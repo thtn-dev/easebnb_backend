@@ -26,8 +26,8 @@ namespace Easebnb.Domain.Common.ValueObjects
             Value = value;
         }
 
-        public static UserName Create(string value) => new (value); 
-        
+        public static UserName Create(string value) => new(value);
+
 
         [GeneratedRegex(@"^(?=[a-zA-Z0-9._]{5,20}$)(?!.*[_.]{2})[^_.].*[^_.]$")]
         private static partial Regex UserNameRegex();

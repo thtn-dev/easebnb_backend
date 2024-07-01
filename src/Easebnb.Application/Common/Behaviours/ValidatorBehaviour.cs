@@ -1,8 +1,4 @@
-﻿using FluentValidation;
-using MediatR;
-using System.Net;
-
-namespace Easebnb.Application.Common.Behaviours;
+﻿namespace Easebnb.Application.Common.Behaviours;
 public class ValidatorBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
 {
     private readonly IEnumerable<IValidator<TRequest>> _validators;

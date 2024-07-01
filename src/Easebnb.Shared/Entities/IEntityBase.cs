@@ -1,6 +1,6 @@
 ﻿namespace Easebnb.Shared.Entities;
 
-public interface IEntityBase<T> 
+public interface IEntityBase<T>
 {
     T Id { get; set; }
 }

@@ -20,7 +20,7 @@ public partial class Email : ValueObject
         Value = value;
     }
 
-    public static Email Create(string email) => new(email); 
+    public static Email Create(string email) => new(email);
 
     protected override IEnumerable<object> GetEqualityComponents()
     {

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Easebnb.Infrastructure.Data.Contexts;
 
-public class AppDbContext : IdentityDbContext<User>
+public class AppDbContext : IdentityDbContext<UserEntity>
 {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {

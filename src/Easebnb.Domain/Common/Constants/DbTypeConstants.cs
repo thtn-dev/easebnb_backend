@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Easebnb.Domain.Common.Constants;
- public static class DbTypeConstants
+﻿namespace Easebnb.Domain.Common.Constants;
+public static class DbTypeConstants
 {
     public const string VARCHAR32 = "varchar(32)";
     public const string VARCHAR64 = "varchar(64)";

@@ -1,5 +1,4 @@
 ﻿using Easebnb.Application;
-using Easebnb.Infrastructure;
 
 namespace Easebnb.WebApi.Extensions
 {
@@ -8,7 +7,7 @@ namespace Easebnb.WebApi.Extensions
         public static WebApplicationBuilder AddServices(this WebApplicationBuilder builder)
         {
             // Add services to the container.
-            builder.Services.AddAuthorization();
+            builder.Services.AddControllers();
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
