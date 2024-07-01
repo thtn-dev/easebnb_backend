@@ -22,7 +22,7 @@ namespace Easebnb.Infrastructure.Data.Migrations.App
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Easebnb.Domain.User.User", b =>
+            modelBuilder.Entity("Easebnb.Domain.User.UserEntity", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("varchar(64)");
@@ -65,9 +65,9 @@ namespace Easebnb.Infrastructure.Data.Migrations.App
                         .HasColumnType("varchar(256)");
 
                     b.Property<string>("PasswordHash")
-                        .HasMaxLength(256)
+                        .HasMaxLength(128)
                         .IsUnicode(true)
-                        .HasColumnType("varchar(256)");
+                        .HasColumnType("varchar(128)");
 
                     b.Property<string>("PhoneNumber")
                         .HasMaxLength(32)
@@ -244,7 +244,7 @@ namespace Easebnb.Infrastructure.Data.Migrations.App
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Easebnb.Domain.User.User", null)
+                    b.HasOne("Easebnb.Domain.User.UserEntity", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -253,7 +253,7 @@ namespace Easebnb.Infrastructure.Data.Migrations.App
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Easebnb.Domain.User.User", null)
+                    b.HasOne("Easebnb.Domain.User.UserEntity", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -268,7 +268,7 @@ namespace Easebnb.Infrastructure.Data.Migrations.App
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Easebnb.Domain.User.User", null)
+                    b.HasOne("Easebnb.Domain.User.UserEntity", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -277,7 +277,7 @@ namespace Easebnb.Infrastructure.Data.Migrations.App
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Easebnb.Domain.User.User", null)
+                    b.HasOne("Easebnb.Domain.User.UserEntity", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

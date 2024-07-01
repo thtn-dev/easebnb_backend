@@ -1,9 +1,12 @@
-﻿using Easebnb.Domain.Common.Options;
+﻿using Easebnb.Application.Common.Interfaces;
+using Easebnb.Domain.Common.Options;
 using Easebnb.Domain.User;
 using Easebnb.Infrastructure.Data.Contexts;
+using Easebnb.Infrastructure.Data.Interceptors;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -31,8 +34,9 @@ public static class DependencyInjection
         var dbOptions = configuration.GetSection(DatabaseSetting.SettingKey).Get<DatabaseSetting>();
         ArgumentNullException.ThrowIfNull(dbOptions, nameof(DatabaseSetting));
         services.AddSingleton(dbOptions);
+        services.AddScoped<ISaveChangesInterceptor, DateTrackingInterceptor>();
 
-        services.AddDbContext<AppDbContext>(options =>
+        services.AddDbContext<IApplicationDbContext, AppDbContext>((sp, options) =>
         {
             var connBuilder = new NpgsqlConnectionStringBuilder()
             {
@@ -48,6 +52,8 @@ public static class DependencyInjection
             {
                 builder.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName);
             });
+
+            options.AddInterceptors(sp.GetServices<ISaveChangesInterceptor>());
         });
 
     }

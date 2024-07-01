@@ -1,15 +1,17 @@
-﻿using Easebnb.Domain.User;
+﻿using Easebnb.Application.Common.Interfaces;
+using Easebnb.Domain.User;
 using Easebnb.Infrastructure.Data.Builders;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Easebnb.Infrastructure.Data.Contexts;
 
-public class AppDbContext : IdentityDbContext<UserEntity>
+public class AppDbContext : IdentityDbContext<UserEntity>, IApplicationDbContext
 {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
     }
+
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -25,5 +27,10 @@ public class AppDbContext : IdentityDbContext<UserEntity>
                 entityType.SetTableName($"{tableName[6..]}");
             }
         }
+    }
+
+    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        return base.SaveChangesAsync(cancellationToken);
     }
 }

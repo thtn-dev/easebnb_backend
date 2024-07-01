@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
@@ -37,7 +38,7 @@ namespace Easebnb.Infrastructure.Data.Migrations.App
                     Email = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false),
                     NormalizedEmail = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false),
                     EmailConfirmed = table.Column<bool>(type: "boolean", nullable: false),
-                    PasswordHash = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
+                    PasswordHash = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true),
                     SecurityStamp = table.Column<string>(type: "text", nullable: true),
                     ConcurrencyStamp = table.Column<string>(type: "text", nullable: true),
                     PhoneNumber = table.Column<string>(type: "varchar(32)", maxLength: 32, nullable: true),

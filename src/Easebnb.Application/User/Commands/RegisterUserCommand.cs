@@ -1,13 +1,15 @@
 ﻿
+using Easebnb.Application.Common.Interfaces;
 using Easebnb.Application.Common.Validators;
 using Easebnb.Domain.User;
 using Easebnb.Shared;
+using ErrorOr;
 using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 
 namespace Easebnb.Application.User.Commands;
 
-public class RegisterUserCommand : ICommand<bool>
+public class RegisterUserCommand : ICommand<ErrorOr<Success>>
 {
     [Required]
     public string Email { get; set; }
@@ -40,14 +42,14 @@ public class RegisterUserCommandValidator : AbstractValidator<RegisterUserComman
     }
 }
 
-public class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand, bool>
+public class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand, ErrorOr<Success>>
 {
     private readonly UserManager<UserEntity> _userManager;
     public RegisterUserCommandHandler(UserManager<UserEntity> userManager)
     {
         _userManager = userManager;
     }
-    public async Task<bool> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
+    public async Task<ErrorOr<Success>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
     {
         var user = new UserEntity
         {
@@ -55,6 +57,6 @@ public class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand, b
             Email = request.Email
         };
         var result = await _userManager.CreateAsync(user, request.Password);
-        return result.Succeeded;
+        return result.Succeeded ? Result.Success : Error.Validation(description: result.Errors.First().Description);
     }
 }

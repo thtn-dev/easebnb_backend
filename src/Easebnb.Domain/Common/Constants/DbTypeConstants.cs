@@ -3,6 +3,7 @@ public static class DbTypeConstants
 {
     public const string VARCHAR32 = "varchar(32)";
     public const string VARCHAR64 = "varchar(64)";
+    public const string VARCHAR128 = "varchar(128)";
     public const string VARCHAR256 = "varchar(256)";
     public const string VARCHAR512 = "varchar(512)";
 

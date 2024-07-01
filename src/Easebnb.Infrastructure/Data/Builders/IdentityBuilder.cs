@@ -135,15 +135,23 @@ public static partial class IdentityBuilder
         entity
             .Property(x => x.PasswordHash)
             .IsUnicode()
-            .HasColumnType(DbTypeConstants.VARCHAR256)
-            .HasMaxLength(256);
-
+            .HasColumnType(DbTypeConstants.VARCHAR128)
+            .HasMaxLength(128);
 
         entity
             .Property(x => x.PhoneNumber)
             .IsUnicode()
             .HasColumnType(DbTypeConstants.VARCHAR32)
             .HasMaxLength(32);
+
+        entity
+            .Property(x => x.CreatedAt)
+            .IsRequired();
+          
+        entity
+            .Property(x => x.UpdatedAt)
+            .IsRequired(false)
+            .HasDefaultValue(null);
 
     }
 }
