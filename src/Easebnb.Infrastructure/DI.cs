@@ -1,8 +1,10 @@
 ﻿using Easebnb.Application.Common.Interfaces;
 using Easebnb.Domain.Common.Options;
+using Easebnb.Domain.Common.Services;
 using Easebnb.Domain.User;
 using Easebnb.Infrastructure.Data.Contexts;
 using Easebnb.Infrastructure.Data.Interceptors;
+using Easebnb.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +23,7 @@ public static class DependencyInjection
     {
         services.AddEntityFramework(configuration);
         services.AddAspNetIdentity(configuration);
+        services.AddInfrasServices();
         return services;
     }
     /// <summary>
@@ -116,5 +119,10 @@ public static class DependencyInjection
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSetting.Secret)),
                 };
             });
+    }
+
+    private static void AddInfrasServices(this IServiceCollection services)
+    {
+        services.AddScoped<IJwtService, JwtService>();
     }
 }

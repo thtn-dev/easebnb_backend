@@ -1,5 +1,7 @@
 ﻿using Ardalis.GuardClauses;
 using Easebnb.Application.User.Commands;
+using Easebnb.Application.User.Dtos;
+using Easebnb.Application.User.Queries;
 using Easebnb.WebApi.Filters;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -25,11 +27,10 @@ namespace Easebnb.WebApi.Controllers
         }
 
         [HttpPost(nameof(Login))]
-        public async Task<IActionResult> Login()
+        public async Task<IActionResult> Login(LoginQuery query)
         {
-            Guard.Against.NullOrEmpty("");
-            await Task.Delay(10);
-            return Ok();
+            var result = await _mediator.Send(query);
+            return result.Match(Ok, Problem);
         }
 
         [HttpPost(nameof(Logout))]
