@@ -25,7 +25,7 @@ namespace Easebnb.Infrastructure.Data.Migrations.App
             modelBuilder.Entity("Easebnb.Domain.User.UserEntity", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("varchar(64)");
+                        .HasColumnType("varchar(36)");
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("integer");
@@ -70,9 +70,9 @@ namespace Easebnb.Infrastructure.Data.Migrations.App
                         .HasColumnType("varchar(128)");
 
                     b.Property<string>("PhoneNumber")
-                        .HasMaxLength(32)
+                        .HasMaxLength(20)
                         .IsUnicode(true)
-                        .HasColumnType("varchar(32)");
+                        .HasColumnType("varchar(20)");
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("boolean");
@@ -107,7 +107,7 @@ namespace Easebnb.Infrastructure.Data.Migrations.App
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("varchar(36)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -134,19 +134,24 @@ namespace Easebnb.Infrastructure.Data.Migrations.App
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("varchar(64)");
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ClaimType")
-                        .HasColumnType("text");
+                        .HasMaxLength(256)
+                        .IsUnicode(true)
+                        .HasColumnType("varchar(256)");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("text");
+                        .HasMaxLength(512)
+                        .HasColumnType("varchar(512)");
 
                     b.Property<string>("RoleId")
                         .IsRequired()
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("varchar(36)");
 
                     b.HasKey("Id");
 
@@ -164,14 +169,17 @@ namespace Easebnb.Infrastructure.Data.Migrations.App
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ClaimType")
-                        .HasColumnType("text");
+                        .HasMaxLength(256)
+                        .IsUnicode(true)
+                        .HasColumnType("varchar(256)");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("text");
+                        .HasMaxLength(512)
+                        .HasColumnType("varchar(512)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("varchar(32)");
+                        .HasColumnType("varchar(36)");
 
                     b.HasKey("Id");
 
@@ -182,19 +190,26 @@ namespace Easebnb.Infrastructure.Data.Migrations.App
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.Property<string>("UserId")
-                        .HasColumnType("varchar(64)");
-
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("text");
-
-                    b.Property<string>("ProviderDisplayName")
-                        .HasColumnType("text");
+                        .HasMaxLength(256)
+                        .IsUnicode(true)
+                        .HasColumnType("varchar(256)");
 
                     b.Property<string>("ProviderKey")
                         .HasColumnType("text");
 
-                    b.HasKey("UserId");
+                    b.Property<string>("ProviderDisplayName")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("varchar(36)");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("UserLogins", (string)null);
                 });
@@ -202,10 +217,10 @@ namespace Easebnb.Infrastructure.Data.Migrations.App
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("varchar(64)");
+                        .HasColumnType("varchar(36)");
 
                     b.Property<string>("RoleId")
-                        .HasColumnType("varchar(64)");
+                        .HasColumnType("varchar(36)");
 
                     b.HasKey("UserId", "RoleId");
 
@@ -217,18 +232,22 @@ namespace Easebnb.Infrastructure.Data.Migrations.App
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("varchar(64)");
+                        .HasColumnType("varchar(36)");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("text");
+                        .HasMaxLength(256)
+                        .IsUnicode(true)
+                        .HasColumnType("varchar(256)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("text");
+                        .HasMaxLength(256)
+                        .IsUnicode(true)
+                        .HasColumnType("varchar(256)");
 
                     b.Property<string>("Value")
                         .HasColumnType("text");
 
-                    b.HasKey("UserId");
+                    b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("UserTokens", (string)null);
                 });

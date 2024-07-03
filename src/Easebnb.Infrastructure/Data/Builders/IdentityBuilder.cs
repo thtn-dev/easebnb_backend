@@ -20,23 +20,50 @@ public static partial class IdentityBuilder
     private static void ConfigureUserToken(EntityTypeBuilder<IdentityUserToken<string>> entity)
     {
         entity.ToTable("UserTokens")
-            .HasKey(x => new { x.UserId });
+            .HasKey(x => new { x.UserId, x.LoginProvider, x.Name });
 
         entity
             .Property(x => x.UserId)
             .IsRequired()
-            .HasColumnType(DbTypeConstants.VARCHAR64);
+            .HasColumnType(DbTypeConstants.Guid);
+
+        entity
+            .Property(x => x.LoginProvider)
+            .IsRequired()
+            .IsUnicode()
+            .HasColumnType(DbTypeConstants.VARCHAR256)
+            .HasMaxLength(256);
+
+        entity
+            .Property(x => x.Name)
+            .IsRequired()
+            .IsUnicode()
+            .HasColumnType(DbTypeConstants.VARCHAR256)
+            .HasMaxLength(256);
     }
 
     private static void ConfigureUserLogin(EntityTypeBuilder<IdentityUserLogin<string>> entity)
     {
         entity.ToTable("UserLogins")
-            .HasKey(x => x.UserId);
+            .HasKey(x => new { x.LoginProvider, x.ProviderKey });
 
         entity
             .Property(x => x.UserId)
             .IsRequired()
-            .HasColumnType(DbTypeConstants.VARCHAR64);
+            .HasColumnType(DbTypeConstants.Guid);
+
+        entity
+            .Property(x => x.LoginProvider)
+            .IsRequired()
+            .IsUnicode()
+            .HasColumnType(DbTypeConstants.VARCHAR256)
+            .HasMaxLength(256);
+
+        entity
+            .Property(x => x.ProviderDisplayName)
+            .IsRequired()
+            .HasColumnType(DbTypeConstants.VARCHAR256)
+            .HasMaxLength(256);
     }
 
     private static void ConfigureUserClaim(EntityTypeBuilder<IdentityUserClaim<string>> entity)
@@ -47,7 +74,18 @@ public static partial class IdentityBuilder
         entity
             .Property(x => x.UserId)
             .IsRequired()
-            .HasColumnType(DbTypeConstants.VARCHAR32);
+            .HasColumnType(DbTypeConstants.Guid);
+
+        entity
+            .Property(x => x.ClaimType)
+            .IsUnicode()
+            .HasColumnType(DbTypeConstants.VARCHAR256)
+            .HasMaxLength(256);
+
+        entity
+            .Property(x => x.ClaimValue)
+            .HasColumnType(DbTypeConstants.VARCHAR512)
+            .HasMaxLength(512);
     }
 
     private static void ConfigureUserRole(EntityTypeBuilder<IdentityUserRole<string>> entity)
@@ -58,11 +96,11 @@ public static partial class IdentityBuilder
         entity
             .Property(x => x.UserId)
             .IsRequired()
-            .HasColumnType(DbTypeConstants.VARCHAR64);
+            .HasColumnType(DbTypeConstants.Guid);
         entity
             .Property(x => x.RoleId)
             .IsRequired()
-            .HasColumnType(DbTypeConstants.VARCHAR64);
+            .HasColumnType(DbTypeConstants.Guid);
     }
 
     private static void ConfigureRole(EntityTypeBuilder<IdentityRole> entity)
@@ -73,9 +111,8 @@ public static partial class IdentityBuilder
         entity
             .Property(x => x.Id)
             .IsRequired()
-            .HasColumnType("varchar(50)");
+            .HasColumnType(DbTypeConstants.Guid);
 
-        // entity.HasIndex(x => x.Name).IsUnique();
         entity
             .Property(x => x.Name)
             .IsRequired()
@@ -89,9 +126,20 @@ public static partial class IdentityBuilder
             .HasKey(x => x.Id);
 
         entity
-            .Property(x => x.Id)
+            .Property(x => x.RoleId)
             .IsRequired()
-            .HasColumnType(DbTypeConstants.VARCHAR64);
+            .HasColumnType(DbTypeConstants.Guid);
+
+        entity
+            .Property(x => x.ClaimType)
+            .IsUnicode()
+            .HasColumnType(DbTypeConstants.VARCHAR256)
+            .HasMaxLength(256);
+
+        entity
+            .Property(x => x.ClaimValue)
+            .HasColumnType(DbTypeConstants.VARCHAR512)
+            .HasMaxLength(512);
     }
 
     private static void ConfigureUser(EntityTypeBuilder<UserEntity> entity)
@@ -102,7 +150,7 @@ public static partial class IdentityBuilder
         entity
             .Property(x => x.Id)
             .IsRequired()
-            .HasColumnType(DbTypeConstants.VARCHAR64);
+            .HasColumnType(DbTypeConstants.Guid);
 
         entity
             .Property(x => x.UserName)
@@ -122,7 +170,7 @@ public static partial class IdentityBuilder
             .Property(x => x.Email)
             .IsRequired()
             .IsUnicode()
-            .HasColumnType(DbTypeConstants.VARCHAR256)
+            .HasColumnType(DbTypeConstants.Email)
             .HasMaxLength(256);
 
         entity
@@ -141,13 +189,13 @@ public static partial class IdentityBuilder
         entity
             .Property(x => x.PhoneNumber)
             .IsUnicode()
-            .HasColumnType(DbTypeConstants.VARCHAR32)
-            .HasMaxLength(32);
+            .HasColumnType(DbTypeConstants.PhoneNumber)
+            .HasMaxLength(20);
 
         entity
             .Property(x => x.CreatedAt)
             .IsRequired();
-          
+
         entity
             .Property(x => x.UpdatedAt)
             .IsRequired(false)

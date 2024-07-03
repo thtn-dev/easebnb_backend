@@ -1,9 +1,6 @@
-﻿using Ardalis.GuardClauses;
-using Easebnb.Application.User.Commands;
-using Easebnb.Application.User.Dtos;
+﻿using Easebnb.Application.User.Commands;
 using Easebnb.Application.User.Queries;
 using Easebnb.WebApi.Filters;
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Easebnb.WebApi.Controllers
@@ -12,24 +9,21 @@ namespace Easebnb.WebApi.Controllers
     [TypeFilter(typeof(ApiExceptionFilter))]
     public class AuthController : ApiController
     {
-        private readonly IMediator _mediator;
-
-        public AuthController(IMediator mediator)
+        public AuthController()
         {
-            _mediator = mediator;
         }
 
         [HttpPost(nameof(Register))]
         public async Task<IActionResult> Register(RegisterUserCommand command)
         {
-            var result = await _mediator.Send(command);
+            var result = await Mediator.Send(command);
             return result.Match(_ => Ok(), Problem);
         }
 
         [HttpPost(nameof(Login))]
         public async Task<IActionResult> Login(LoginQuery query)
         {
-            var result = await _mediator.Send(query);
+            var result = await Mediator.Send(query);
             return result.Match(Ok, Problem);
         }
 
@@ -53,6 +47,5 @@ namespace Easebnb.WebApi.Controllers
             await Task.Delay(10);
             return Ok();
         }
-
     }
 }

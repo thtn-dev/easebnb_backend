@@ -7,6 +7,10 @@ public static class DbTypeConstants
     public const string VARCHAR256 = "varchar(256)";
     public const string VARCHAR512 = "varchar(512)";
 
+    public const string PhoneNumber = "varchar(20)";
+    public const string Email = "varchar(256)";
+    public const string Guid = "varchar(36)";
+
     public const string TEXT = "text";
     public const string LONGTEXT = "longtext";
 

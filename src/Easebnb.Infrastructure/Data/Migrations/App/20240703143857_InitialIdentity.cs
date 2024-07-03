@@ -16,7 +16,7 @@ namespace Easebnb.Infrastructure.Data.Migrations.App
                 name: "Roles",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "varchar(50)", nullable: false),
+                    Id = table.Column<string>(type: "varchar(36)", nullable: false),
                     Name = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false),
                     NormalizedName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     ConcurrencyStamp = table.Column<string>(type: "text", nullable: true)
@@ -30,7 +30,7 @@ namespace Easebnb.Infrastructure.Data.Migrations.App
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "varchar(64)", nullable: false),
+                    Id = table.Column<string>(type: "varchar(36)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     UserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false),
@@ -41,7 +41,7 @@ namespace Easebnb.Infrastructure.Data.Migrations.App
                     PasswordHash = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true),
                     SecurityStamp = table.Column<string>(type: "text", nullable: true),
                     ConcurrencyStamp = table.Column<string>(type: "text", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "varchar(32)", maxLength: 32, nullable: true),
+                    PhoneNumber = table.Column<string>(type: "varchar(20)", maxLength: 20, nullable: true),
                     PhoneNumberConfirmed = table.Column<bool>(type: "boolean", nullable: false),
                     TwoFactorEnabled = table.Column<bool>(type: "boolean", nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
@@ -57,10 +57,11 @@ namespace Easebnb.Infrastructure.Data.Migrations.App
                 name: "RoleClaims",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "varchar(64)", nullable: false),
-                    RoleId = table.Column<string>(type: "varchar(50)", nullable: false),
-                    ClaimType = table.Column<string>(type: "text", nullable: true),
-                    ClaimValue = table.Column<string>(type: "text", nullable: true)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    RoleId = table.Column<string>(type: "varchar(36)", nullable: false),
+                    ClaimType = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
+                    ClaimValue = table.Column<string>(type: "varchar(512)", maxLength: 512, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -79,9 +80,9 @@ namespace Easebnb.Infrastructure.Data.Migrations.App
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    UserId = table.Column<string>(type: "varchar(32)", nullable: false),
-                    ClaimType = table.Column<string>(type: "text", nullable: true),
-                    ClaimValue = table.Column<string>(type: "text", nullable: true)
+                    UserId = table.Column<string>(type: "varchar(36)", nullable: false),
+                    ClaimType = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
+                    ClaimValue = table.Column<string>(type: "varchar(512)", maxLength: 512, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -98,14 +99,14 @@ namespace Easebnb.Infrastructure.Data.Migrations.App
                 name: "UserLogins",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "varchar(64)", nullable: false),
-                    LoginProvider = table.Column<string>(type: "text", nullable: true),
-                    ProviderKey = table.Column<string>(type: "text", nullable: true),
-                    ProviderDisplayName = table.Column<string>(type: "text", nullable: true)
+                    LoginProvider = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false),
+                    ProviderKey = table.Column<string>(type: "text", nullable: false),
+                    ProviderDisplayName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false),
+                    UserId = table.Column<string>(type: "varchar(36)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserLogins", x => x.UserId);
+                    table.PrimaryKey("PK_UserLogins", x => new { x.LoginProvider, x.ProviderKey });
                     table.ForeignKey(
                         name: "FK_UserLogins_Users_UserId",
                         column: x => x.UserId,
@@ -118,8 +119,8 @@ namespace Easebnb.Infrastructure.Data.Migrations.App
                 name: "UserRoles",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "varchar(64)", nullable: false),
-                    RoleId = table.Column<string>(type: "varchar(64)", nullable: false)
+                    UserId = table.Column<string>(type: "varchar(36)", nullable: false),
+                    RoleId = table.Column<string>(type: "varchar(36)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -142,14 +143,14 @@ namespace Easebnb.Infrastructure.Data.Migrations.App
                 name: "UserTokens",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "varchar(64)", nullable: false),
-                    LoginProvider = table.Column<string>(type: "text", nullable: true),
-                    Name = table.Column<string>(type: "text", nullable: true),
+                    UserId = table.Column<string>(type: "varchar(36)", nullable: false),
+                    LoginProvider = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false),
+                    Name = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false),
                     Value = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserTokens", x => x.UserId);
+                    table.PrimaryKey("PK_UserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
                     table.ForeignKey(
                         name: "FK_UserTokens_Users_UserId",
                         column: x => x.UserId,
@@ -172,6 +173,11 @@ namespace Easebnb.Infrastructure.Data.Migrations.App
             migrationBuilder.CreateIndex(
                 name: "IX_UserClaims_UserId",
                 table: "UserClaims",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserLogins_UserId",
+                table: "UserLogins",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(

@@ -1,5 +1,5 @@
 ﻿using ErrorOr;
-using Microsoft.AspNetCore.Http;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
@@ -8,6 +8,8 @@ namespace Easebnb.WebApi.Controllers
     [ApiController]
     public abstract class ApiController : ControllerBase
     {
+        private ISender? mediator;
+        protected ISender Mediator => mediator ??= HttpContext.RequestServices.GetRequiredService<ISender>();
 
         protected ActionResult Problem(List<Error> errors)
         {

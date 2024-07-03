@@ -1,11 +1,12 @@
-﻿using Ardalis.GuardClauses;
-using Easebnb.Application.User.Dtos;
+﻿using Easebnb.Application.User.Dtos;
 using Easebnb.Domain.Common.Options;
 using Easebnb.Domain.Common.Services;
 using Easebnb.Domain.User;
 using ErrorOr;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.JsonWebTokens;
 using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
 
 namespace Easebnb.Application.User.Queries;
 
@@ -55,6 +56,9 @@ public class LoginQueryHandler : IRequestHandler<LoginQuery, ErrorOr<UserLoginRe
                 return Error.Validation(description: "Invalid email or password");
 
             var claims = await _userManager.GetClaimsAsync(user);
+            var subJwtClaim = new Claim(JwtRegisteredClaimNames.Sub, user.Id);
+            claims.Add(subJwtClaim);
+
             var token = await _jwtService.GenerateJwtTokenAsync(claims);
             var data = new UserLoginResultDto
             {
