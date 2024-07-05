@@ -59,6 +59,10 @@ public static class DependencyInjection
             options.AddInterceptors(sp.GetServices<ISaveChangesInterceptor>());
         });
 
+        services.AddScoped<IApplicationConnection>(sp => sp.GetRequiredService<AppDbContext>());
+
+        services.AddScoped<IVNAdministrativeUnitDbContext>(sp => sp.GetRequiredService<AppDbContext>());
+
     }
 
     /// <summary>
