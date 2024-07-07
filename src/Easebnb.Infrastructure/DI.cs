@@ -1,12 +1,12 @@
 ﻿using Easebnb.Application.Common.Interfaces;
 using Easebnb.Domain.Common.Options;
-using Easebnb.Domain.Common.Services;
-using Easebnb.Domain.User;
+using Easebnb.Domain.User.Options;
+using Easebnb.Domain.User.Services;
 using Easebnb.Infrastructure.Data.Contexts;
 using Easebnb.Infrastructure.Data.Interceptors;
 using Easebnb.Infrastructure.Services;
+using Easebnb.Infrastructure.User;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
@@ -21,8 +21,8 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructureLayer(this IServiceCollection services, IConfiguration configuration)
     {
+        services.AddJwt(configuration);
         services.AddEntityFramework(configuration);
-        services.AddAspNetIdentity(configuration);
         services.AddInfrasServices();
         return services;
     }
@@ -60,9 +60,6 @@ public static class DependencyInjection
         });
 
         services.AddScoped<IApplicationConnection>(sp => sp.GetRequiredService<AppDbContext>());
-
-        services.AddScoped<IVNAdministrativeUnitDbContext>(sp => sp.GetRequiredService<AppDbContext>());
-
     }
 
     /// <summary>
@@ -70,31 +67,8 @@ public static class DependencyInjection
     /// </summary>
     /// <param name="services"></param>
     /// <param name="configuration"></param>
-    private static void AddAspNetIdentity(this IServiceCollection services, IConfiguration configuration)
+    private static void AddJwt(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddIdentity<UserEntity, IdentityRole>()
-            .AddEntityFrameworkStores<AppDbContext>()
-            .AddDefaultTokenProviders();
-
-        services.Configure<IdentityOptions>(options =>
-        {
-            // Password settings
-            options.Password.RequireDigit = false;
-            options.Password.RequiredLength = 6;
-            options.Password.RequireNonAlphanumeric = false;
-            options.Password.RequireUppercase = false;
-            options.Password.RequireLowercase = false;
-
-            // Lockout settings
-            options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
-            options.Lockout.MaxFailedAccessAttempts = 10;
-            options.Lockout.AllowedForNewUsers = true;
-
-            // User settings
-            options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-            options.User.RequireUniqueEmail = true;
-        });
-
         var jwtSetting = configuration.GetSection(JwtSetting.SettingKey).Get<JwtSetting>();
         ArgumentNullException.ThrowIfNull(jwtSetting, nameof(JwtSetting));
         services.AddSingleton(jwtSetting);
@@ -128,5 +102,9 @@ public static class DependencyInjection
     private static void AddInfrasServices(this IServiceCollection services)
     {
         services.AddScoped<IJwtService, JwtService>();
+        services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IPasswordHasher, PasswordHasher>();
+        services.AddScoped<IUserNormalize, UserNormalize>();
+        services.AddSingleton(sp => PasswordHasherOptions.Default);
     }
 }

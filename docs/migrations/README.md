@@ -12,3 +12,7 @@ dotnet ef database update -c AppDbContext --project .\Easebnb.Infrastructure\Eas
 ```
 dotnet ef migrations remove -c AppDbContext --project .\Easebnb.Infrastructure\Easebnb.Infrastructure.csproj --startup-project .\Easebnb.WebApi\Easebnb.WebApi.csproj
 ```
+
+```
+dotnet ef database update --verbose --project .\Easebnb.Infrastructure\Easebnb.Infrastructure.csproj --startup-project .\Easebnb.WebApi\Easebnb.WebApi.csproj
+```

@@ -1,5 +1,5 @@
 ﻿using Easebnb.Domain.Common.Options;
-using Easebnb.Domain.Common.Services;
+using Easebnb.Domain.User.Services;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
