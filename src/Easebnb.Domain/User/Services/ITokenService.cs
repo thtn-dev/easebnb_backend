@@ -1,7 +1,7 @@
 ﻿
 using System.Security.Claims;
 
-namespace Easebnb.Domain.Common.Services;
+namespace Easebnb.Domain.User.Services;
 public interface ITokenService
 {
     Task<string> GenerateRefreshToken(string userId, string ipAddress);

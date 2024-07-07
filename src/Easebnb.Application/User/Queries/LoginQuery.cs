@@ -1,9 +1,9 @@
-﻿using Easebnb.Application.User.Dtos;
+﻿using Ardalis.GuardClauses;
+using Easebnb.Application.User.Dtos;
 using Easebnb.Domain.Common.Options;
-using Easebnb.Domain.Common.Services;
 using Easebnb.Domain.User;
+using Easebnb.Domain.User.Services;
 using ErrorOr;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.JsonWebTokens;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
@@ -13,9 +13,9 @@ namespace Easebnb.Application.User.Queries;
 public class LoginQuery : IRequest<ErrorOr<UserLoginResultDto>>
 {
     [Required]
-    public string UserName { get; set; }
+    public string UserName { get; set; } = null!;
     [Required]
-    public string Password { get; set; }
+    public string Password { get; set; } = null!;
 }
 
 public class LoginQueryValidator : AbstractValidator<LoginQuery>
@@ -34,30 +34,29 @@ public class LoginQueryValidator : AbstractValidator<LoginQuery>
 
 public class LoginQueryHandler : IRequestHandler<LoginQuery, ErrorOr<UserLoginResultDto>>
 {
-    private readonly SignInManager<UserEntity> _signInManager;
-    private readonly UserManager<UserEntity> _userManager;
+    private readonly IUserService _userService;
     private readonly IJwtService _jwtService;
     private readonly JwtSetting _jwtSetting;
-    public LoginQueryHandler(SignInManager<UserEntity> signInManager, IJwtService jwtService, UserManager<UserEntity> userManager, JwtSetting jwtSetting)
+    public LoginQueryHandler(IUserService userService, IJwtService jwtService, JwtSetting jwtSetting)
     {
-        _signInManager = signInManager;
         _jwtService = jwtService;
-        _userManager = userManager;
+        _userService = userService;
         _jwtSetting = jwtSetting;
     }
     public async Task<ErrorOr<UserLoginResultDto>> Handle(LoginQuery request, CancellationToken cancellationToken)
     {
-        var result = await _signInManager.PasswordSignInAsync(request.UserName, request.Password, false, false);
-        if (result.Succeeded)
+        var result = await _userService.SignInAsync(request.UserName, request.Password);
+        if (!result.IsError)
         {
-            var user = await _userManager.FindByNameAsync(request.UserName);
-
-            if (user == null)
-                return Error.Validation(description: "Invalid email or password");
-
-            var claims = await _userManager.GetClaimsAsync(user);
-            var subJwtClaim = new Claim(JwtRegisteredClaimNames.Sub, user.Id);
-            claims.Add(subJwtClaim);
+            var user = result.Value;
+            var claims = new List<Claim>
+            {
+                new (JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new (JwtRegisteredClaimNames.Email, user.Email),
+                new (JwtRegisteredClaimNames.UniqueName, user.UserName),
+                new (JwtRegisteredClaimNames.NameId, user.Id.ToString()),
+                new (JwtRegisteredClaimNames.Sub, user.Id)
+            };
 
             var token = await _jwtService.GenerateJwtTokenAsync(claims);
             var data = new UserLoginResultDto

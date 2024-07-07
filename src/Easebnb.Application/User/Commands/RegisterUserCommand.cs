@@ -1,10 +1,9 @@
 ﻿
-using Easebnb.Application.Common.Interfaces;
 using Easebnb.Application.Common.Validators;
 using Easebnb.Domain.User;
+using Easebnb.Domain.User.Services;
 using Easebnb.Shared;
 using ErrorOr;
-using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 
 namespace Easebnb.Application.User.Commands;
@@ -12,13 +11,13 @@ namespace Easebnb.Application.User.Commands;
 public class RegisterUserCommand : ICommand<ErrorOr<Success>>
 {
     [Required]
-    public string Email { get; set; }
+    public string Email { get; set; } = null!;
     [Required]
-    public string UserName { get; set; }
+    public string UserName { get; set; } = null!;
     [Required]
-    public string Password { get; set; }
+    public string Password { get; set; } = null!;
     [Required]
-    public string ConfirmPassword { get; set; }
+    public string ConfirmPassword { get; set; } = null!;
 }
 
 public class RegisterUserCommandValidator : AbstractValidator<RegisterUserCommand>
@@ -44,19 +43,15 @@ public class RegisterUserCommandValidator : AbstractValidator<RegisterUserComman
 
 public class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand, ErrorOr<Success>>
 {
-    private readonly UserManager<UserEntity> _userManager;
-    public RegisterUserCommandHandler(UserManager<UserEntity> userManager)
+    private readonly IUserService _userService;
+    public RegisterUserCommandHandler(IUserService userService)
     {
-        _userManager = userManager;
+        _userService = userService;
     }
     public async Task<ErrorOr<Success>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
     {
-        var user = new UserEntity
-        {
-            UserName = request.UserName,
-            Email = request.Email
-        };
-        var result = await _userManager.CreateAsync(user, request.Password);
-        return result.Succeeded ? Result.Success : Error.Validation(description: result.Errors.First().Description);
+        var user = UserEntity.Create(request.UserName, request.Email);
+        var result = await _userService.CreateUserAsync(user, request.Password);
+        return result.Value != null ? Result.Success : result.Errors;
     }
 }
