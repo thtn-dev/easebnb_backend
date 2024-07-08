@@ -39,7 +39,7 @@ public static class DependencyInjection
         services.AddSingleton(dbOptions);
         services.AddScoped<ISaveChangesInterceptor, DateTrackingInterceptor>();
 
-        services.AddDbContext<IApplicationDbContext, AppDbContext>((sp, options) =>
+        services.AddDbContextPool<IApplicationDbContext, AppDbContext>((sp, options) =>
         {
             var connBuilder = new NpgsqlConnectionStringBuilder()
             {
@@ -49,6 +49,9 @@ public static class DependencyInjection
                 Password = dbOptions.Password,
                 Database = dbOptions.Database,
                 SslMode = dbOptions.SslMode == "require" ? SslMode.Require : SslMode.Disable,
+                Pooling = true,
+                MaxPoolSize = 100,
+                MinPoolSize = 10,
             };
             var conn = connBuilder.ToString();
             options.UseNpgsql(conn, builder =>
