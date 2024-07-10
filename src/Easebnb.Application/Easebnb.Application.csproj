@@ -26,4 +26,7 @@
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.5" />
       <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="7.6.2" />
     </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Homestay\" />
+    </ItemGroup>
 </Project>
