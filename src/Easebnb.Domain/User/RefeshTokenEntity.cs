@@ -6,14 +6,14 @@ namespace Easebnb.Domain.User;
 
 public class RefeshTokenEntity : EntityBase<string>
 {
-    public string UserId { get; set; }
-    public string Token { get; set; }
+    public string UserId { get; set; } = null!;
+    public string Token { get; set; } = null!;
     public DateTime Expires { get; set; }
-    public string CreatedByIp { get; set; }
+    public string CreatedByIp { get; set; } = null!;
     public DateTime Created { get; set; }
-    public string RevokedByIp { get; set; }
-    public DateTime? Revoked { get; set; }
-    public string ReplacedByToken { get; set; }
+    public string RevokedByIp { get; set; } = null!;
+    public DateTime? Revoked { get; set; } = null!;
+    public string ReplacedByToken { get; set; } = null!;
 
     [NotMapped]
     public bool IsActive => Revoked == null && !IsExpired;

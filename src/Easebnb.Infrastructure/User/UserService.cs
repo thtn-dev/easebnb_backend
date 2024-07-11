@@ -65,7 +65,7 @@ public class UserService : IUserService
         {
             return Error.NotFound("User not found");
         }
-        var isVerified = _passwordHasher.VerifyPassword( password, user.PasswordHash);
+        var isVerified = _passwordHasher.VerifyPassword(password, user.PasswordHash);
         return isVerified ? user : Error.Validation("Invalid password");
     }
 

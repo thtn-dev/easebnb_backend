@@ -9,7 +9,7 @@ public static partial class IdentityBuilder
     public static void ApplyIdentityModelBuilder(this ModelBuilder builder)
     {
         builder.Entity<UserEntity>(ConfigureUser);
-       
+
     }
     private static void ConfigureUser(EntityTypeBuilder<UserEntity> entity)
     {

@@ -1,4 +1,6 @@
-﻿namespace Easebnb.Domain.User.Services;
+﻿using ErrorOr;
+
+namespace Easebnb.Domain.User.Services;
 
 public interface IUserService
 {

@@ -19,10 +19,22 @@ namespace Easebnb.Shared
                 entity.ClearDomainEvents();
                 foreach (var @event in @events)
                 {
-                    await _mediator.Publish(@event);
-                }    
+                    await _mediator.Publish(@event).ConfigureAwait(false);
+                }
             }
         }
-       
+
+        public async Task DispatchAndClearEvents(IEnumerable<HasDomainEventBase> domainEvents)
+        {
+            foreach (var entity in domainEvents)
+            {
+                var @events = entity.DomainEvents.ToArray();
+                entity.ClearDomainEvents();
+                foreach (var @event in @events)
+                {
+                    await _mediator.Publish(@event).ConfigureAwait(false);
+                }
+            }
+        }
     }
 }

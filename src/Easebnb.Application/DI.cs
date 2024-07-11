@@ -1,5 +1,5 @@
 ﻿using Easebnb.Application.Common.Behaviours;
-using Easebnb.Domain.Homestay;
+using Easebnb.Domain;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
@@ -11,7 +11,7 @@ public static class DependencyInjection
         services.AddMediatR(cfg =>
         {
             cfg.RegisterServicesFromAssemblyContaining(typeof(DependencyInjection));
-            cfg.RegisterServicesFromAssemblyContaining<HomestayEntity>();
+            cfg.RegisterServicesFromAssemblyContaining<DomainAssemblyRef>();
 
         });
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());

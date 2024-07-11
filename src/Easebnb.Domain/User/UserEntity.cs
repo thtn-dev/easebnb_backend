@@ -10,7 +10,7 @@ public class UserEntity : EntityBase<string>, IDateTracking, IAggregateRoot
     public string NormalizedEmail { get; set; } = null!;
     public string PasswordHash { get; set; } = null!;
     public string? PhoneNumber { get; set; }
-    public bool EmailConfirmed { get; set; } 
+    public bool EmailConfirmed { get; set; }
     public string ConcurrencyStamp { get; set; } = null!;
     public string SecurityStamp { get; set; } = null!;
 
