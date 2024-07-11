@@ -13,7 +13,7 @@ namespace Easebnb.Infrastructure.User
         }
         public string HashPassword(string password)
         {
-            byte[] salt  = new byte[_options.SaltSize];
+            byte[] salt = new byte[_options.SaltSize];
             _options.GetRandomNumberGenerator().GetBytes(salt);
             byte[] subKey = KeyDerivation.Pbkdf2(password, salt, KeyDerivationPrf.HMACSHA256, _options.Iterations, _options.KeySize);
 

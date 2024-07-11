@@ -1,4 +1,5 @@
 ﻿using Easebnb.Application;
+using Easebnb.Domain.User.Services;
 using Easebnb.Shared;
 
 namespace Easebnb.WebApi.Extensions
@@ -17,6 +18,7 @@ namespace Easebnb.WebApi.Extensions
             builder.Services.AddApplicationLayer();
             builder.Services.AddInfrastructureLayer(builder.Configuration);
             builder.Services.AddScoped<IDomainEventDispatcher, MediatRDomainEventDispatcher>();
+            builder.Services.AddScoped<ICurrentUser, CurrentUser>();
             return builder;
         }
     }

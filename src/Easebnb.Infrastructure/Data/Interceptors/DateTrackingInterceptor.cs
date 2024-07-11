@@ -3,11 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace Easebnb.Infrastructure.Data.Interceptors;
-public class DateTrackingInterceptor : SaveChangesInterceptor
+public sealed class DateTrackingInterceptor : SaveChangesInterceptor
 {
     public DateTrackingInterceptor()
     {
-        
+
     }
     public override InterceptionResult<int> SavingChanges(DbContextEventData eventData, InterceptionResult<int> result)
     {
@@ -19,7 +19,7 @@ public class DateTrackingInterceptor : SaveChangesInterceptor
     {
         UpdateDateTrackingProperties(eventData.Context);
         return base.SavingChangesAsync(eventData, result, cancellationToken);
-    }   
+    }
 
     private static void UpdateDateTrackingProperties(DbContext? dbContext)
     {

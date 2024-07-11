@@ -1,8 +1,9 @@
 ﻿using Easebnb.Shared;
+using MediatR;
 
 namespace Easebnb.Domain.Homestay.Events;
 
-public class CreateHomestayEvent : DomainEventBase
+public record CreateHomestayEvent : DomainEventBase
 {
     public string HomestayId { get; }
     public CreateHomestayEvent(string homestayId)
@@ -10,3 +11,4 @@ public class CreateHomestayEvent : DomainEventBase
         HomestayId = homestayId;
     }
 }
+

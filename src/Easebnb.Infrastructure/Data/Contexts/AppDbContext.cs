@@ -1,6 +1,5 @@
 ﻿using Easebnb.Application.Common.Interfaces;
 using Easebnb.Domain.User;
-using Easebnb.Domain.VN_AdministrativeUnit;
 using Easebnb.Infrastructure.Data.Builders;
 using Microsoft.EntityFrameworkCore;
 using System.Data.Common;

@@ -1,9 +1,6 @@
-﻿using Ardalis.GuardClauses;
-using Easebnb.Application.User.Dtos;
+﻿using Easebnb.Application.User.Dtos;
 using Easebnb.Domain.Common.Options;
-using Easebnb.Domain.User;
 using Easebnb.Domain.User.Services;
-using ErrorOr;
 using Microsoft.IdentityModel.JsonWebTokens;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
@@ -54,7 +51,7 @@ public class LoginQueryHandler : IRequestHandler<LoginQuery, ErrorOr<UserLoginRe
                 new (JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new (JwtRegisteredClaimNames.Email, user.Email),
                 new (JwtRegisteredClaimNames.UniqueName, user.UserName),
-                new (JwtRegisteredClaimNames.NameId, user.Id.ToString()),
+                new (JwtRegisteredClaimNames.NameId, user.Id),
                 new (JwtRegisteredClaimNames.Sub, user.Id)
             };
 

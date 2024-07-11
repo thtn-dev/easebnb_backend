@@ -3,24 +3,23 @@ using Easebnb.Application.Common.Validators;
 using Easebnb.Domain.User;
 using Easebnb.Domain.User.Services;
 using Easebnb.Shared;
-using ErrorOr;
 using System.ComponentModel.DataAnnotations;
 
 namespace Easebnb.Application.User.Commands;
 
-public class RegisterUserCommand : ICommand<ErrorOr<Success>>
+public sealed record RegisterUserCommand : ICommand<ErrorOr<Success>>
 {
     [Required]
-    public string Email { get; set; } = null!;
+    public string Email { get; init; } = null!;
     [Required]
-    public string UserName { get; set; } = null!;
+    public string UserName { get; init; } = null!;
     [Required]
-    public string Password { get; set; } = null!;
+    public string Password { get; init; } = null!;
     [Required]
-    public string ConfirmPassword { get; set; } = null!;
+    public string ConfirmPassword { get; init; } = null!;
 }
 
-public class RegisterUserCommandValidator : AbstractValidator<RegisterUserCommand>
+public sealed class RegisterUserCommandValidator : AbstractValidator<RegisterUserCommand>
 {
     public RegisterUserCommandValidator()
     {
@@ -41,7 +40,7 @@ public class RegisterUserCommandValidator : AbstractValidator<RegisterUserComman
     }
 }
 
-public class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand, ErrorOr<Success>>
+public sealed class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand, ErrorOr<Success>>
 {
     private readonly IUserService _userService;
     public RegisterUserCommandHandler(IUserService userService)

@@ -1,6 +1,4 @@
-﻿using ErrorOr;
-
-namespace Easebnb.Application.Common.Behaviours;
+﻿namespace Easebnb.Application.Common.Behaviours;
 public class ValidatorBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>
 {
