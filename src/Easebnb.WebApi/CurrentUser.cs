@@ -17,7 +17,7 @@ namespace Easebnb.WebApi
         private ErrorOr<string> GetUserId()
         {
             var userId = _httpContextAccessor.HttpContext?.User.FindFirstValue(JwtRegisteredClaimNames.NameId);
-            return userId == null ? Error.Unauthorized("User Unauthorized") : userId;
+            return string.IsNullOrEmpty(userId) ? Error.Unauthorized("User Unauthorized") : userId;
         }
 
         ErrorOr<string> ICurrentUser.UserId => GetUserId();

@@ -11,6 +11,8 @@
                 app.UseSwaggerUI();
             }
 
+            app.UseCors("DefaultDevCorsPolicy");
+
             //app.UseHttpsRedirection();
 
             app.UseAuthentication();
