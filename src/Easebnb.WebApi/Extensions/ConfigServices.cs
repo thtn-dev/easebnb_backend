@@ -17,9 +17,34 @@ namespace Easebnb.WebApi.Extensions
 
             builder.Services.AddApplicationLayer();
             builder.Services.AddInfrastructureLayer(builder.Configuration);
-            builder.Services.AddScoped<IDomainEventDispatcher, MediatRDomainEventDispatcher>();
+            builder.Services.AddTransient<IDomainEventDispatcher, MediatRDomainEventDispatcher>();
             builder.Services.AddScoped<ICurrentUser, CurrentUser>();
+            builder.Services.AddHttpContextAccessor();
+            builder.Services.ConfigureCors();
+
             return builder;
+        }
+
+        private static void ConfigureCors(this IServiceCollection services)
+        {
+            services.AddCors(options =>
+            {
+                options.AddPolicy("DefaultDevCorsPolicy", builder =>
+                {
+                    // allow all
+                    builder.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+                });
+
+                options.AddPolicy("DefaultProdCorsPolicy", builder =>
+                {
+                    // allow only the specified origin
+                    builder.WithOrigins("https://example.com")
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+                });
+            });
         }
     }
 }

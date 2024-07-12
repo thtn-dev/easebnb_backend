@@ -10,6 +10,16 @@ public class HomestayEntity : EntityAggregateBase<string>
     public HomestayEntity()
     {
         Id = Guid.NewGuid().ToString();
-        RegisterDomainEvent(new CreateHomestayEvent(Id));
+    }
+
+    public static HomestayEntity Create(string name, string description)
+    {
+        var homestay = new HomestayEntity
+        {
+            Name = name,
+            Description = description
+        };
+        homestay.RegisterDomainEvent(new CreateHomestayEvent(homestay.Id));
+        return homestay;
     }
 }

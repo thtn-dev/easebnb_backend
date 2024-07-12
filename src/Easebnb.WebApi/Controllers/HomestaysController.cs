@@ -17,11 +17,7 @@ namespace Easebnb.WebApi.Controllers
         public async Task<IActionResult> Create()
         {
             await Task.Delay(10);
-            var hs = new HomestayEntity()
-            {
-                Name = "Homestay 1",
-                Description = "Description 1",
-            };
+            var hs = HomestayEntity.Create("Homestay 1", "Description 1");
             await _dispatcher.DispatchAndClearEvents([hs]);
             return Ok();
         }
