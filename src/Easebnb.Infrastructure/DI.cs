@@ -37,7 +37,8 @@ public static class DependencyInjection
         var dbOptions = configuration.GetSection(DatabaseSetting.SettingKey).Get<DatabaseSetting>();
         ArgumentNullException.ThrowIfNull(dbOptions, nameof(DatabaseSetting));
         services.AddSingleton(dbOptions);
-        services.AddScoped<ISaveChangesInterceptor, DateTrackingInterceptor>();
+        services.AddTransient<ISaveChangesInterceptor, DateTrackingInterceptor>();
+        services.AddTransient<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
 
         services.AddDbContextPool<IApplicationDbContext, AppDbContext>((sp, options) =>
         {

@@ -17,7 +17,7 @@ namespace Easebnb.WebApi.Extensions
 
             builder.Services.AddApplicationLayer();
             builder.Services.AddInfrastructureLayer(builder.Configuration);
-            builder.Services.AddScoped<IDomainEventDispatcher, MediatRDomainEventDispatcher>();
+            builder.Services.AddTransient<IDomainEventDispatcher, MediatRDomainEventDispatcher>();
             builder.Services.AddScoped<ICurrentUser, CurrentUser>();
             builder.Services.AddHttpContextAccessor();
             builder.Services.ConfigureCors();

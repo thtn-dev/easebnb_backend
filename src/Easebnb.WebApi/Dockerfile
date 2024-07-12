@@ -3,20 +3,19 @@
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 USER app
 WORKDIR /app
-EXPOSE 8080
-EXPOSE 8081
+EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["src/Easebnb.WebApi/Easebnb.WebApi.csproj", "src/Easebnb.WebApi/"]
-COPY ["src/Easebnb.Application/Easebnb.Application.csproj", "src/Easebnb.Application/"]
-COPY ["src/Easebnb.Domain/Easebnb.Domain.csproj", "src/Easebnb.Domain/"]
-COPY ["src/Easebnb.Shared/Easebnb.Shared.csproj", "src/Easebnb.Shared/"]
-COPY ["src/Easebnb.Infrastructure/Easebnb.Infrastructure.csproj", "src/Easebnb.Infrastructure/"]
-RUN dotnet restore "./src/Easebnb.WebApi/Easebnb.WebApi.csproj"
+COPY ["Easebnb.WebApi/Easebnb.WebApi.csproj", "Easebnb.WebApi/"]
+COPY ["Easebnb.Application/Easebnb.Application.csproj", "Easebnb.Application/"]
+COPY ["Easebnb.Domain/Easebnb.Domain.csproj", "Easebnb.Domain/"]
+COPY ["Easebnb.Shared/Easebnb.Shared.csproj", "Easebnb.Shared/"]
+COPY ["Easebnb.Infrastructure/Easebnb.Infrastructure.csproj", "Easebnb.Infrastructure/"]
+RUN dotnet restore "Easebnb.WebApi/Easebnb.WebApi.csproj"
 COPY . .
-WORKDIR "/src/src/Easebnb.WebApi"
+WORKDIR "/src/Easebnb.WebApi"
 RUN dotnet build "./Easebnb.WebApi.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
