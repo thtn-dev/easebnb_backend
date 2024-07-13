@@ -1,5 +1,7 @@
 # Easebnb | THTN-DEV-1611
-
+<p align="center">
+  <img src="https://github.com/thtn-dev/easebnb_backend/blob/refactor/domain-event/assets/logo-full.svg" alt="Logo">
+</p>
 ## Introduction
 - Description:
 	- This is a full stack web application that is a clone of Airbnb.
@@ -18,4 +20,6 @@
 ## Techniques
 
 ## Tech Stack
-
+<p align="left" >
+  <img width="166px" src="https://trungnamdev.me/assets/logo-light-DyBc02vJ.svg" alt="Logo">
+</p>
