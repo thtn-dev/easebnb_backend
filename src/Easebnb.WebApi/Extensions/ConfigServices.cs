@@ -21,7 +21,6 @@ namespace Easebnb.WebApi.Extensions
             builder.Services.AddScoped<ICurrentUser, CurrentUser>();
             builder.Services.AddHttpContextAccessor();
             builder.Services.ConfigureCors();
-
             return builder;
         }
 

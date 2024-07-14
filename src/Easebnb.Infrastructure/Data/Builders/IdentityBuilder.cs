@@ -13,11 +13,12 @@ public static partial class IdentityBuilder
     }
     private static void ConfigureUser(EntityTypeBuilder<UserEntity> entity)
     {
-        entity.ToTable("Users", "idt")
+        entity.ToTable("Users", DbSchemaConstants.Default)
             .HasKey(x => x.Id);
 
         entity
             .Property(x => x.Id)
+            .HasColumnName("UserId")
             .IsRequired()
             .HasColumnType(DbTypeConstants.Guid);
 

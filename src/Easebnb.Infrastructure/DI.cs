@@ -1,11 +1,14 @@
 ﻿using Easebnb.Application.Common.Interfaces;
 using Easebnb.Domain.Common.Options;
+using Easebnb.Domain.Common.Services;
 using Easebnb.Domain.User.Options;
 using Easebnb.Domain.User.Services;
 using Easebnb.Infrastructure.Data.Contexts;
 using Easebnb.Infrastructure.Data.Interceptors;
 using Easebnb.Infrastructure.Services;
 using Easebnb.Infrastructure.User;
+using IdGen;
+using IdGen.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
@@ -24,6 +27,8 @@ public static class DependencyInjection
         services.AddJwt(configuration);
         services.AddEntityFramework(configuration);
         services.AddInfrasServices();
+
+        services.AddIdGen();
         return services;
     }
     /// <summary>
@@ -101,6 +106,21 @@ public static class DependencyInjection
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSetting.Secret)),
                 };
             });
+    }
+
+    private static void AddIdGen(this IServiceCollection services)
+    {
+        services.AddIdGen(16, () =>
+        {
+            var epoc = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            var structure = IdStructure.Default;
+            return new IdGeneratorOptions
+            {
+                TimeSource = new DefaultTimeSource(epoc),
+                IdStructure = structure,
+            };
+        });
+        services.AddSingleton<ISystemIdGenService, SystemIdGenService>();
     }
 
     private static void AddInfrasServices(this IServiceCollection services)

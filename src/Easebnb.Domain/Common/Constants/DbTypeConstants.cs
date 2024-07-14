@@ -27,3 +27,8 @@ public static class DbTypeConstants
     public const string ENUM = "enum";
     public const string BLOB = "blob";
 }
+
+public static class DbSchemaConstants
+{
+    public const string Default = "public";
+}
