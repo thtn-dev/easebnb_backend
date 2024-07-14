@@ -1,4 +1,8 @@
-# Easebnb | THTN-DEV-1611
+# Easebnb Project
+
+<p align="center">
+  <img src="https://github.com/thtn-dev/easebnb_backend/blob/refactor/domain-event/assets/logo-full.svg" alt="Logo">
+</p>
 
 ## Introduction
 - Description:
@@ -19,3 +23,6 @@
 
 ## Tech Stack
 
+<p align="left" >
+  <img width="166px" src="https://trungnamdev.me/assets/logo-light-DyBc02vJ.svg" alt="Logo">
+</p>
