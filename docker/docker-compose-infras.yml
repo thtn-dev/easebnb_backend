@@ -22,8 +22,10 @@ services:
       - no-new-privileges:true
     volumes:
       - portainer_data:/data
+      - /var/run/docker.sock:/var/run/docker.sock
     ports:
       - 9000:9000
+      - 8000:8000
 
 networks:
   default:
