@@ -1,0 +1,37 @@
+name: easebnb_containers
+
+services:
+  postgres_db:
+    image: postgis/postgis:16-3.4-alpine
+    container_name: ease_pgdb
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "5435:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/pgdata
+
+  # portainer alpine with username and password
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - portainer_data:/data
+    ports:
+      - 9000:9000
+
+networks:
+  default:
+    name: easebnb_network
+    driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local
+  portainer_data:
+    driver: local

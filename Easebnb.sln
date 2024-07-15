@@ -23,7 +23,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{4305ACD0-A
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{A257D112-2992-49B5-AC38-5B357E25BE83}"
 	ProjectSection(SolutionItems) = preProject
-		docker\docker-compose.yml = docker\docker-compose.yml
+		docker\docker-compose-app.yml = docker\docker-compose-app.yml
+		docker\docker-compose-infras.yml = docker\docker-compose-infras.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{C5D978FE-D177-4C43-92C5-7222F1F8BC7A}"
