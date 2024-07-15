@@ -1,5 +1,6 @@
 ﻿using Easebnb.Application.User.Commands;
 using Easebnb.Application.User.Queries;
+using Easebnb.Domain.Common.Services;
 using Easebnb.WebApi.Filters;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,8 +10,10 @@ namespace Easebnb.WebApi.Controllers
     [TypeFilter(typeof(ApiExceptionFilter))]
     public class AuthController : ApiController
     {
-        public AuthController()
+        private readonly ISystemIdGenService _systemIdGenService;
+        public AuthController(ISystemIdGenService systemIdGenService)
         {
+            _systemIdGenService = systemIdGenService;
         }
 
         [HttpPost(nameof(Register))]
@@ -46,6 +49,18 @@ namespace Easebnb.WebApi.Controllers
         {
             await Task.Delay(10);
             return Ok();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetIdGen()
+        {
+            await Task.Delay(10);
+            var data = new
+            {
+                longId = _systemIdGenService.GenerateId<long>(),
+                stringId = _systemIdGenService.GenerateId<string>()
+            };
+            return Ok(data);
         }
     }
 }

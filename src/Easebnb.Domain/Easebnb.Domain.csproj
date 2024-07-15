@@ -11,6 +11,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Common\Services\" />
+      <Folder Include="Common\Utils\" />
     </ItemGroup>
 </Project>
