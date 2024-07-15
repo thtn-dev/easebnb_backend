@@ -1,7 +1,7 @@
 # Easebnb Project
 
 <p align="center">
-  <img src="[https://github.com/thtn-dev/easebnb_backend/blob/main/assets/logo-full.svg" alt="Logo">
+  <img src="https://github.com/thtn-dev/easebnb_backend/blob/main/assets/logo-full.svg" alt="Logo">
 </p>
 
 ## Introduction
