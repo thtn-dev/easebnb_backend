@@ -51,8 +51,7 @@ public class LoginQueryHandler : IRequestHandler<LoginQuery, ErrorOr<UserLoginRe
                 new (JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new (JwtRegisteredClaimNames.Email, user.Email),
                 new (JwtRegisteredClaimNames.UniqueName, user.UserName),
-                new (JwtRegisteredClaimNames.NameId, user.Id),
-                new (JwtRegisteredClaimNames.Sub, user.Id)
+                new (JwtRegisteredClaimNames.Sub, user.Id.ToString())
             };
 
             var token = await _jwtService.GenerateJwtTokenAsync(claims);
@@ -60,7 +59,7 @@ public class LoginQueryHandler : IRequestHandler<LoginQuery, ErrorOr<UserLoginRe
             {
                 Token = token,
                 ExpiresIn = _jwtSetting.ExpiryMinutes,
-                Sub = user.Id
+                Sub = user.Id.ToString(),
             };
             return data;
         }

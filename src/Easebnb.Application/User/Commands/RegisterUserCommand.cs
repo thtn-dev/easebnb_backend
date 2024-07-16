@@ -1,5 +1,6 @@
 ﻿
 using Easebnb.Application.Common.Validators;
+using Easebnb.Domain.Common.Services;
 using Easebnb.Domain.User;
 using Easebnb.Domain.User.Services;
 using Easebnb.Shared;
@@ -43,13 +44,15 @@ public sealed class RegisterUserCommandValidator : AbstractValidator<RegisterUse
 public sealed class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand, ErrorOr<Success>>
 {
     private readonly IUserService _userService;
-    public RegisterUserCommandHandler(IUserService userService)
+    private readonly ISystemIdGenService _systemIdGenService;
+    public RegisterUserCommandHandler(IUserService userService, ISystemIdGenService systemIdGenService)
     {
         _userService = userService;
+        _systemIdGenService = systemIdGenService;
     }
     public async Task<ErrorOr<Success>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
     {
-        var user = UserEntity.Create(request.UserName, request.Email);
+        var user = UserEntity.Create(_systemIdGenService.GenerateId<long>(),request.UserName, request.Email);
         var result = await _userService.CreateUserAsync(user, request.Password);
         return result.Value != null ? Result.Success : result.Errors;
     }

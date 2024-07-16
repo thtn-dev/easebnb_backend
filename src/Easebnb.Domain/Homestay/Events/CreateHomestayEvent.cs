@@ -5,8 +5,8 @@ namespace Easebnb.Domain.Homestay.Events;
 
 public record CreateHomestayEvent : DomainEventBase
 {
-    public string HomestayId { get; }
-    public CreateHomestayEvent(string homestayId)
+    public long HomestayId { get; }
+    public CreateHomestayEvent(long homestayId)
     {
         HomestayId = homestayId;
     }

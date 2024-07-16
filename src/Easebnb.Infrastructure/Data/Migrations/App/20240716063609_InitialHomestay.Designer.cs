@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using NetTopologySuite.Geometries;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
@@ -12,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Easebnb.Infrastructure.Data.Migrations.App
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240707085623_InitialIdentity")]
-    partial class InitialIdentity
+    [Migration("20240716063609_InitialHomestay")]
+    partial class InitialHomestay
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,12 +24,62 @@ namespace Easebnb.Infrastructure.Data.Migrations.App
                 .HasAnnotation("ProductVersion", "8.0.6")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
+            NpgsqlModelBuilderExtensions.HasPostgresExtension(modelBuilder, "postgis");
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("Easebnb.Domain.Homestay.HomestayEntity", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("HomestayId");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .IsUnicode(true)
+                        .HasColumnType("text");
+
+                    b.Property<string>("ExtraData")
+                        .HasColumnType("json");
+
+                    b.Property<Geometry>("Geom")
+                        .HasColumnType("geometry(Point, 3857)");
+
+                    b.Property<double>("Latitude")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("Longtitude")
+                        .HasColumnType("double precision");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .IsUnicode(true)
+                        .HasColumnType("varchar(256)");
+
+                    b.Property<string>("RawAddress")
+                        .IsRequired()
+                        .HasMaxLength(512)
+                        .HasColumnType("varchar(512)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Geom")
+                        .HasAnnotation("idx_geom", true);
+
+                    b.ToTable("Homestays", "public");
+                });
 
             modelBuilder.Entity("Easebnb.Domain.User.UserEntity", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("varchar(36)");
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("UserId");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<string>("ConcurrencyStamp")
                         .HasMaxLength(128)
@@ -94,7 +145,7 @@ namespace Easebnb.Infrastructure.Data.Migrations.App
                         .IsUnique()
                         .HasAnnotation("idx_username_unique", true);
 
-                    b.ToTable("Users", "idt");
+                    b.ToTable("Users", "public");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,8 +1,9 @@
-﻿using Easebnb.Shared.Entities;
+﻿using Ardalis.GuardClauses;
+using Easebnb.Shared.Entities;
 
 namespace Easebnb.Domain.User;
 
-public class UserEntity : EntityBase<string>, IDateTracking, IAggregateRoot
+public class UserEntity : EntityAggregateBase<long>, IDateTracking
 {
     public string UserName { get; set; } = null!;
     public string NormalizedUserName { get; set; } = null!;
@@ -17,11 +18,15 @@ public class UserEntity : EntityBase<string>, IDateTracking, IAggregateRoot
     public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
 
-    public static UserEntity Create(string userName, string email)
+    public static UserEntity Create(long id,string userName, string email)
     {
+        Guard.Against.NegativeOrZero(id, nameof(id));
+        Guard.Against.NullOrEmpty(userName, nameof(userName));
+        Guard.Against.NullOrEmpty(email, nameof(email));
+
         return new UserEntity
         {
-            Id = Guid.NewGuid().ToString(),
+            Id = id,
             UserName = userName,
             Email = email,
             ConcurrencyStamp = Guid.NewGuid().ToString(),

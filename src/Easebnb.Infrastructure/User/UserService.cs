@@ -14,9 +14,14 @@ public class UserService : IUserService
 
     public UserService(IServiceProvider serviceProvider)
     {
-        _context = serviceProvider.GetRequiredService<IApplicationDbContext>() ?? throw new ArgumentNullException(nameof(IApplicationDbContext));
-        _passwordHasher = serviceProvider.GetRequiredService<IPasswordHasher>() ?? throw new ArgumentNullException(nameof(IPasswordHasher));
-        _userNormalize = serviceProvider.GetRequiredService<IUserNormalize>() ?? throw new ArgumentNullException(nameof(IUserNormalize));
+        _context = serviceProvider.GetRequiredService<IApplicationDbContext>() 
+            ?? throw new ArgumentNullException(nameof(IApplicationDbContext));
+
+        _passwordHasher = serviceProvider.GetRequiredService<IPasswordHasher>() 
+            ?? throw new ArgumentNullException(nameof(IPasswordHasher));
+
+        _userNormalize = serviceProvider.GetRequiredService<IUserNormalize>() 
+            ?? throw new ArgumentNullException(nameof(IUserNormalize));
     }
     public IQueryable<UserEntity> Users => _context.Users.AsQueryable();
 
@@ -47,9 +52,9 @@ public class UserService : IUserService
         return user;
     }
 
-    public Task<UserEntity?> GetUserByIdAsync(Guid userId)
+    public Task<UserEntity?> GetUserByIdAsync(long userId)
     {
-        return Users.FirstOrDefaultAsync(u => u.Id == userId.ToString());
+        return Users.FirstOrDefaultAsync(u => u.Id == userId);
     }
 
     public Task<UserEntity?> GetUserByUserNameAsync(string userName)
