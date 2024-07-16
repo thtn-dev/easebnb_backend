@@ -1,6 +1,8 @@
 ﻿using Easebnb.Application;
 using Easebnb.Domain.User.Services;
 using Easebnb.Shared;
+using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace Easebnb.WebApi.Extensions
 {
@@ -9,7 +11,13 @@ namespace Easebnb.WebApi.Extensions
         public static WebApplicationBuilder AddServices(this WebApplicationBuilder builder)
         {
             // Add services to the container.
-            builder.Services.AddControllers();
+            builder.Services.AddControllers()
+                .AddNewtonsoftJson(options =>
+                {
+                    options.SerializerSettings.ContractResolver = new DefaultContractResolver();
+                    options.SerializerSettings.Formatting = Formatting.Indented;
+                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                });
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();

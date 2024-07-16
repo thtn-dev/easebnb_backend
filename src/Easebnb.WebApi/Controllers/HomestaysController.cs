@@ -1,6 +1,5 @@
 ﻿using Easebnb.Application.Homestay.Commands;
-using Easebnb.Domain.Homestay;
-using Easebnb.Shared;
+using Easebnb.Application.Homestay.Queries;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Easebnb.WebApi.Controllers
@@ -13,6 +12,13 @@ namespace Easebnb.WebApi.Controllers
         public async Task<IActionResult> Create(CreateHomestayCommand command)
         {
             var result = await Mediator.Send(command);
+            return Ok(result);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetById([FromQuery] GetHomestayByIdQuery query)
+        {
+            var result = await Mediator.Send(query);
             return Ok(result);
         }
     }

@@ -31,6 +31,7 @@ public static class DependencyInjection
         services.AddInfrasServices();
 
         services.AddIdGen();
+        
         return services;
     }
     /// <summary>

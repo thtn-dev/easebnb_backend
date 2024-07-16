@@ -31,8 +31,8 @@ public class UserService : IUserService
         user.PasswordHash = hashedPassword;
         user.NormalizedEmail = _userNormalize.NormalizeEmail(user.Email);
         user.NormalizedUserName = _userNormalize.NormalizeUserName(user.UserName);
-        await _context.Users.AddAsync(user);
-        var rowAff = await _context.SaveChangesAsync();
+        await _context.Users.AddAsync(user).ConfigureAwait(false);
+        var rowAff = await _context.SaveChangesAsync().ConfigureAwait(false);
         if (rowAff == 0)
         {
             return Error.Conflict("User already exists");
@@ -48,24 +48,24 @@ public class UserService : IUserService
     public async Task<UserEntity?> GetUserByEmailAsync(string email)
     {
         var emailNormalized = _userNormalize.NormalizeEmail(email);
-        var user = await Users.FirstOrDefaultAsync(u => u.NormalizedEmail == emailNormalized);
+        var user = await Users.FirstOrDefaultAsync(u => u.NormalizedEmail == emailNormalized).ConfigureAwait(false);
         return user;
     }
 
-    public Task<UserEntity?> GetUserByIdAsync(long userId)
+    public async Task<UserEntity?> GetUserByIdAsync(long userId)
     {
-        return Users.FirstOrDefaultAsync(u => u.Id == userId);
+        return await Users.FirstOrDefaultAsync(u => u.Id == userId).ConfigureAwait(false);
     }
 
-    public Task<UserEntity?> GetUserByUserNameAsync(string userName)
+    public async Task<UserEntity?> GetUserByUserNameAsync(string userName)
     {
         var userNameNormalized = _userNormalize.NormalizeUserName(userName);
-        return Users.FirstOrDefaultAsync(u => u.NormalizedUserName == userNameNormalized);
+        return await Users.FirstOrDefaultAsync(u => u.NormalizedUserName == userNameNormalized).ConfigureAwait(false);
     }
 
     public async Task<ErrorOr<UserEntity>> SignInAsync(string userName, string password)
     {
-        var user = await GetUserByUserNameAsync(userName);
+        var user = await GetUserByUserNameAsync(userName).ConfigureAwait(false);
         if (user == null)
         {
             return Error.NotFound("User not found");
