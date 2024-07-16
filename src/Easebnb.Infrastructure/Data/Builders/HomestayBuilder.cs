@@ -49,12 +49,12 @@ public static partial class HomestayBuilder
             .HasColumnType(DbTypeConstants.GEOMETRY_POINT_3857);  
         
         entity.HasIndex(x => x.Geom)
-            .HasAnnotation("idx_geom", true);
+            .HasDatabaseName("IX_Homestays_Geom")
+            .HasMethod("GIST");
 
         entity.Property(x => x.RawAddress)
             .IsRequired()
             .HasColumnType(DbTypeConstants.VARCHAR512)
             .HasMaxLength(512);
-
     }
 }

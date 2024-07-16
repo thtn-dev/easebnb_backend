@@ -39,7 +39,8 @@ namespace Easebnb.Infrastructure.Data.Migrations.App
                 name: "IX_Homestays_Geom",
                 schema: "public",
                 table: "Homestays",
-                column: "Geom");
+                column: "Geom")
+                .Annotation("Npgsql:IndexMethod", "GIST");
         }
 
         /// <inheritdoc />

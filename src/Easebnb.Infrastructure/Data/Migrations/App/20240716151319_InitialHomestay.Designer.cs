@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Easebnb.Infrastructure.Data.Migrations.App
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240716063609_InitialHomestay")]
+    [Migration("20240716151319_InitialHomestay")]
     partial class InitialHomestay
     {
         /// <inheritdoc />
@@ -67,7 +67,9 @@ namespace Easebnb.Infrastructure.Data.Migrations.App
                     b.HasKey("Id");
 
                     b.HasIndex("Geom")
-                        .HasAnnotation("idx_geom", true);
+                        .HasDatabaseName("IX_Homestays_Geom");
+
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("Geom"), "GIST");
 
                     b.ToTable("Homestays", "public");
                 });

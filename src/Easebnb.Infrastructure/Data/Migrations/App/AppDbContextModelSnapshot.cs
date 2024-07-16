@@ -64,7 +64,9 @@ namespace Easebnb.Infrastructure.Data.Migrations.App
                     b.HasKey("Id");
 
                     b.HasIndex("Geom")
-                        .HasAnnotation("idx_geom", true);
+                        .HasDatabaseName("IX_Homestays_Geom");
+
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("Geom"), "GIST");
 
                     b.ToTable("Homestays", "public");
                 });

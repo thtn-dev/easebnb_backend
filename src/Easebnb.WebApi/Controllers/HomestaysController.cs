@@ -1,5 +1,6 @@
 ﻿using Easebnb.Application.Homestay.Commands;
 using Easebnb.Application.Homestay.Queries;
+using Easebnb.Domain.Homestay.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Easebnb.WebApi.Controllers
@@ -8,6 +9,12 @@ namespace Easebnb.WebApi.Controllers
     [ApiController]
     public class HomestaysController : ApiController
     {
+        private readonly IHomestayService _homestayService;
+        public HomestaysController(IHomestayService homestayService)
+        {
+            _homestayService = homestayService;
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create(CreateHomestayCommand command)
         {
@@ -20,6 +27,20 @@ namespace Easebnb.WebApi.Controllers
         {
             var result = await Mediator.Send(query);
             return Ok(result);
+        }
+
+        [HttpGet("fi")]
+        public async Task<IActionResult> GetNearest([FromQuery] Query q)
+        {
+            var r = await _homestayService.FindHomestayNearest(q.Longitude, q.Latitude, q.Tolerance);
+            return Ok(r);
+        }
+
+        public class Query
+        {
+            public double Longitude { get; set; }
+            public double Latitude { get; set; }
+            public double Tolerance { get; set; }
         }
     }
 }
