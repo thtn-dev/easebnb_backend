@@ -1,4 +1,5 @@
 ﻿
+using Ardalis.GuardClauses;
 using Easebnb.Domain.Homestay.Events;
 using Easebnb.Shared.Entities;
 using NetTopologySuite.Geometries;
@@ -7,7 +8,7 @@ namespace Easebnb.Domain.Homestay;
 public class HomestayEntity : EntityAggregateBase<long>
 {
     public string Name { get; set; } = null!;
-    public string Description { get; set; } = null!;
+    public string? Description { get; set; }
     public string? ExtraData { get; set; }
     public double Longtitude { get; set; }
     public double Latitude { get; set; }
@@ -17,7 +18,7 @@ public class HomestayEntity : EntityAggregateBase<long>
     {
     }
 
-    public static HomestayEntity Create(long id, string name, string description)
+    public static HomestayEntity Create(long id, string name, string? description)
     {
         var homestay = new HomestayEntity
         {
@@ -29,11 +30,19 @@ public class HomestayEntity : EntityAggregateBase<long>
         return homestay;
     }
 
-    public static void SetAddress(HomestayEntity homestay, string address, double longitude, double latitude)
+    public static void SetAddress(HomestayEntity homestay, string address, Point _3857Point)
     {
+        Guard.Against.Null(homestay, nameof(homestay));
+        Guard.Against.NullOrWhiteSpace(address, nameof(address));
+        Guard.Against.Null(_3857Point, nameof(_3857Point));
+        if (_3857Point.SRID != 3857)
+        {
+            throw new ArgumentException("Invalid SRID for 3857", nameof(_3857Point));
+        }
+
         homestay.RawAddress = address;
-        homestay.Longtitude = longitude;
-        homestay.Latitude = latitude;
-        homestay.Geom = new Point(longitude, latitude) { SRID = 3857 };
+        homestay.Longtitude = _3857Point.Coordinate.X;
+        homestay.Latitude = _3857Point.Coordinate.Y;
+        homestay.Geom = _3857Point;
     }
 }

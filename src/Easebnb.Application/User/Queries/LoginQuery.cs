@@ -1,5 +1,5 @@
-﻿using Easebnb.Application.User.Dtos;
-using Easebnb.Domain.Common.Options;
+﻿using Easebnb.Domain.Common.Options;
+using Easebnb.Domain.User.Dto;
 using Easebnb.Domain.User.Services;
 using Microsoft.IdentityModel.JsonWebTokens;
 using System.ComponentModel.DataAnnotations;
