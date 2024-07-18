@@ -1,4 +1,5 @@
 ﻿using Easebnb.Application.Common.Interfaces;
+using Easebnb.Domain.Homestay;
 using Easebnb.Domain.User;
 using Easebnb.Infrastructure.Data.Builders;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,7 @@ public class AppDbContext : DbContext, IApplicationDbContext
     public DbConnection Connection => Database.GetDbConnection();
 
     public DbSet<UserEntity> Users { get; set; }
+    public DbSet<HomestayEntity> Homestays { get; set; }
     #endregion
 
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
@@ -23,6 +25,7 @@ public class AppDbContext : DbContext, IApplicationDbContext
     {
         base.OnModelCreating(builder);
         builder.ApplyIdentityModelBuilder();
+        builder.ApplyHomestayModelBuilder();
     }
 
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)

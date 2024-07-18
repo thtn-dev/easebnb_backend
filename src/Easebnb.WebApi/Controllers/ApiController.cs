@@ -1,4 +1,5 @@
-﻿using ErrorOr;
+﻿using Easebnb.WebApi.Filters;
+using ErrorOr;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 namespace Easebnb.WebApi.Controllers
 {
     [ApiController]
+    [TypeFilter(typeof(ApiExceptionFilter))]
     public abstract class ApiController : ControllerBase
     {
         private ISender? mediator;

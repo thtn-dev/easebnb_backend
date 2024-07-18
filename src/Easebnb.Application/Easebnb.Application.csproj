@@ -7,13 +7,10 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Compile Remove="Homestay\**" />
       <Compile Remove="Modules\**" />
       <Compile Remove="Ping\**" />
-      <EmbeddedResource Remove="Homestay\**" />
       <EmbeddedResource Remove="Modules\**" />
       <EmbeddedResource Remove="Ping\**" />
-      <None Remove="Homestay\**" />
       <None Remove="Modules\**" />
       <None Remove="Ping\**" />
     </ItemGroup>

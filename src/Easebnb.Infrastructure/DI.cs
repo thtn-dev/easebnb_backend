@@ -1,10 +1,12 @@
 ﻿using Easebnb.Application.Common.Interfaces;
 using Easebnb.Domain.Common.Options;
 using Easebnb.Domain.Common.Services;
+using Easebnb.Domain.Homestay.Services;
 using Easebnb.Domain.User.Options;
 using Easebnb.Domain.User.Services;
 using Easebnb.Infrastructure.Data.Contexts;
 using Easebnb.Infrastructure.Data.Interceptors;
+using Easebnb.Infrastructure.Homestay;
 using Easebnb.Infrastructure.Services;
 using Easebnb.Infrastructure.User;
 using IdGen;
@@ -29,6 +31,7 @@ public static class DependencyInjection
         services.AddInfrasServices();
 
         services.AddIdGen();
+        
         return services;
     }
     /// <summary>
@@ -63,6 +66,7 @@ public static class DependencyInjection
             options.UseNpgsql(conn, builder =>
             {
                 builder.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName);
+                builder.UseNetTopologySuite();
             });
 
             options.AddInterceptors(sp.GetServices<ISaveChangesInterceptor>());
@@ -130,5 +134,6 @@ public static class DependencyInjection
         services.AddScoped<IPasswordHasher, PasswordHasher>();
         services.AddScoped<IUserNormalize, UserNormalize>();
         services.AddSingleton(sp => PasswordHasherOptions.Default);
+        services.AddScoped<IHomestayService, HomestayService>();
     }
 }

@@ -20,7 +20,7 @@ public static partial class IdentityBuilder
             .Property(x => x.Id)
             .HasColumnName("UserId")
             .IsRequired()
-            .HasColumnType(DbTypeConstants.Guid);
+            .HasColumnType(DbTypeConstants.BIGINT);
 
         entity
             .Property(x => x.UserName)

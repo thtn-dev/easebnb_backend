@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace Easebnb.WebApi.Controllers
 {
     [Route("api/[controller]")]
-    [TypeFilter(typeof(ApiExceptionFilter))]
     public class AuthController : ApiController
     {
         private readonly ISystemIdGenService _systemIdGenService;

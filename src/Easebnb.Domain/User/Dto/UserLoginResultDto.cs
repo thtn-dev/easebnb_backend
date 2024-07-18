@@ -1,5 +1,5 @@
 ﻿
-namespace Easebnb.Application.User.Dtos
+namespace Easebnb.Domain.User.Dto
 {
     public class UserLoginResultDto
     {

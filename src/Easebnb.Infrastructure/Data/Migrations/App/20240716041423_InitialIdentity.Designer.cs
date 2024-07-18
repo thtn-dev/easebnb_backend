@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Easebnb.Infrastructure.Data.Migrations.App
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240707085623_InitialIdentity")]
+    [Migration("20240716041423_InitialIdentity")]
     partial class InitialIdentity
     {
         /// <inheritdoc />
@@ -27,8 +27,12 @@ namespace Easebnb.Infrastructure.Data.Migrations.App
 
             modelBuilder.Entity("Easebnb.Domain.User.UserEntity", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("varchar(36)");
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("UserId");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<string>("ConcurrencyStamp")
                         .HasMaxLength(128)
@@ -94,7 +98,7 @@ namespace Easebnb.Infrastructure.Data.Migrations.App
                         .IsUnique()
                         .HasAnnotation("idx_username_unique", true);
 
-                    b.ToTable("Users", "idt");
+                    b.ToTable("Users", "public");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
@@ -11,14 +13,15 @@ namespace Easebnb.Infrastructure.Data.Migrations.App
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.EnsureSchema(
-                name: "idt");
+                name: "public");
 
             migrationBuilder.CreateTable(
                 name: "Users",
-                schema: "idt",
+                schema: "public",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "varchar(36)", nullable: false),
+                    UserId = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     UserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false),
                     NormalizedUserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false),
                     Email = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false),
@@ -33,19 +36,19 @@ namespace Easebnb.Infrastructure.Data.Migrations.App
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.Id);
+                    table.PrimaryKey("PK_Users", x => x.UserId);
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_NormalizedEmail",
-                schema: "idt",
+                schema: "public",
                 table: "Users",
                 column: "NormalizedEmail",
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_NormalizedUserName",
-                schema: "idt",
+                schema: "public",
                 table: "Users",
                 column: "NormalizedUserName",
                 unique: true);
@@ -56,7 +59,7 @@ namespace Easebnb.Infrastructure.Data.Migrations.App
         {
             migrationBuilder.DropTable(
                 name: "Users",
-                schema: "idt");
+                schema: "public");
         }
     }
 }

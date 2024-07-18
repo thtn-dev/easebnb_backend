@@ -1,12 +1,14 @@
-﻿namespace Easebnb.Application.Common.Behaviours;
+﻿using Microsoft.Extensions.DependencyInjection;
+
+namespace Easebnb.Application.Common.Behaviours;
 public class ValidatorBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>
 {
-    private readonly IValidator<TRequest> _validator;
+    private readonly IValidator<TRequest>? _validator;
 
-    public ValidatorBehaviour(IValidator<TRequest> validator)
+    public ValidatorBehaviour(IServiceProvider provider)
     {
-        _validator = validator;
+        _validator = provider.GetService<IValidator<TRequest>>();
     }
 
 
